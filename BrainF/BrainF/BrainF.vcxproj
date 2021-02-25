@@ -123,11 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="FileHandler.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
