@@ -8,11 +8,11 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 	{
 		if (loops > 0)
 		{
-			output += "\t";
+			output += std::string(loops, '\t');
 		}
 
 		switch (token)
-		{
+		{  
 		case Token::inc:
 			
 			output += "\t++*ptr;\n";
@@ -43,6 +43,10 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 		default:
 			break;
 		}
+	}
+
+	if (loops != 0) {
+		throw SyntaxError(1);
 	}
 
 	output += "\n\treturn 0;\n}\n";
