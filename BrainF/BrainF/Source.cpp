@@ -4,9 +4,19 @@
 #include "Exceptions.h";
 
 
-int main()
+int main(int argc, char** argv)
 {
-	std::string data = FileHandler::load("C:/files/test.bf");
+	std::string data;
+	if (argc == 1) {
+		std::string name = "";
+		std::cout << "enter file path:" << std::endl;
+		std::cin >> name;
+		data = FileHandler::load(name);
+	}
+	else {
+		data = FileHandler::load(argv[1]);
+	}
+	
 	try 
 	{
 		std::string output = Generator::genarate(Tokenizer::tokenize(data));
