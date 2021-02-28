@@ -21,8 +21,20 @@ int main(int argc, char** argv)
 	{
 		std::string output = Generator::genarate(Tokenizer::tokenize(data));
 		std::cout << output;
+		
+		if (argc <= 2) {
+			std::string name = "";
+			std::cout << "enter save path(witout .c):" << std::endl;
+			std::cin >> name;
+			name += ".c";
+			FileHandler::write(name, output);
+		}
+		else {
+			FileHandler::write(argv[2], output);
+		}
+		
 	}
-	catch (const SyntaxError e) {
+	catch (const SyntaxError& e) {
 		std::cout << e.what();
 	}
 	
