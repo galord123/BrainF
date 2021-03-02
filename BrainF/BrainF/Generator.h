@@ -2,6 +2,7 @@
 #include "Tokenizer.h"
 #include "Exceptions.h"
 #include <stack>
+#include <string>
 
 class Generator
 {

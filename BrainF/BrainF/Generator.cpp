@@ -3,12 +3,15 @@
 std::string Generator::genarate(const std::vector<Token>& tokens)
 {
 	std::stack<int> loopStack;
-	
+	Token last = Token::get;
+	int sameCounter = 0;
+	unsigned i = 0;
 	std::string output = "#include <stdio.h>\n\nint main() {\n\tchar arr[100] = { 0 };\n\tchar* ptr = arr;\n\n";
 	
 	for (auto token : tokens) 
 	{
-		if (!loopStack.empty())
+		
+		if (!loopStack.empty() && sameCounter == 0)
 		{
 			output += std::string(loopStack.size(), '\t');
 		}
@@ -17,10 +20,53 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 		{  
 		case Token::inc:
 			
-			output += "\t++*ptr;\n";
+			if (last == token || sameCounter == 0) 
+			{
+				sameCounter++;
+				if (i + 1 != tokens.size() && tokens[i + 1] != token && sameCounter != 1) {
+					output += "\t*ptr += ";
+					output += std::to_string(sameCounter);
+					output += "; \n";
+					sameCounter = 0;
+				}
+				else if (i + 1 != tokens.size() && tokens[i + 1] == token) {
+
+				}
+				else if (sameCounter == 1) {
+
+					output += "\t++*ptr;\n";
+					sameCounter = 0;
+				}
+				
+			}
+			else {
+				output += "\t++*ptr;\n";
+			}
+
 			break;
 		case Token::dec:
-			output += "\t--*ptr;\n";
+			if (last == token || sameCounter == 0)
+			{
+				sameCounter++;
+				if (i + 1 != tokens.size() && tokens[i + 1] != token && sameCounter != 1) {
+					output += "\t*ptr -= ";
+					output += std::to_string(sameCounter);
+					output += "; \n";
+					sameCounter = 0;
+				}
+				else if (i + 1 != tokens.size() && tokens[i + 1] == token) {
+
+				}
+				else if (sameCounter == 1) {
+
+					output += "\t--*ptr;\n";
+				}
+
+			}
+			else {
+				output += "\t--*ptr;\n";
+			}
+			
 			break;
 		case Token::left:
 			output += "\t--ptr;\n";
@@ -48,6 +94,8 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 		default:
 			break;
 		}
+		last = token;
+		i++;
 	}
 	if (!loopStack.empty()) {
 		throw SyntaxError(1);
