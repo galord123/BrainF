@@ -1,6 +1,7 @@
 #pragma once
 #include "Tokenizer.h"
 #include "Exceptions.h"
+#include <stack>
 
 class Generator
 {

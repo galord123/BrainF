@@ -2,15 +2,17 @@
 
 std::string Generator::genarate(const std::vector<Token>& tokens)
 {
-	int loops = 0;
+	std::stack<int> loopStack;
+	
 	std::string output = "#include <stdio.h>\n\nint main() {\n\tchar arr[100] = { 0 };\n\tchar* ptr = arr;\n\n";
+	
 	for (auto token : tokens) 
 	{
-		if (loops > 0)
+		if (!loopStack.empty())
 		{
-			output += std::string(loops, '\t');
+			output += std::string(loopStack.size(), '\t');
 		}
-
+		
 		switch (token)
 		{  
 		case Token::inc:
@@ -33,19 +35,21 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 			output += "\t*ptr = getchar();\n";
 			break;
 		case Token::loopS:
-			loops++;
+			loopStack.push(1);
 			output += "\twhile(*ptr) {\n";
 			break;
 		case Token::loopE:
-			loops--;
+			if (loopStack.empty()) {
+				throw SyntaxError(1);
+			}
+			loopStack.pop();
 			output += "}\n\n";
 			break;
 		default:
 			break;
 		}
 	}
-
-	if (loops != 0) {
+	if (!loopStack.empty()) {
 		throw SyntaxError(1);
 	}
 
