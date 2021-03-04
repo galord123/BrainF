@@ -10,7 +10,8 @@ enum class Token {
 	print,
 	get,
 	loopS,
-	loopE
+	loopE,
+	end
 };
 
 class Tokenizer

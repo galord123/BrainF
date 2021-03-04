@@ -4,7 +4,7 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 {
 	std::stack<int> loopStack;
 	Token last = Token::get;
-	int sameCounter = 0;
+	int sameCounter = 0;	
 	unsigned i = 0;
 	std::string output = "#include <stdio.h>\n\nint main() {\n\tchar arr[100] = { 0 };\n\tchar* ptr = arr;\n\n";
 	
@@ -20,29 +20,22 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 		{  
 		case Token::inc:
 			
-			if (last == token || sameCounter == 0) 
-			{
-				sameCounter++;
-				if (i + 1 != tokens.size() && tokens[i + 1] != token && sameCounter != 1) {
-					output += "\t*ptr += ";
-					output += std::to_string(sameCounter);
-					output += "; \n";
-					sameCounter = 0;
-				}
-				else if (i + 1 != tokens.size() && tokens[i + 1] == token) {
-
-				}
-				else if (sameCounter == 1) {
-
-					output += "\t++*ptr;\n";
-					sameCounter = 0;
-				}
-				
+			sameCounter++;
+			if (i + 1 != tokens.size() && tokens[i + 1] != token && sameCounter != 1) {
+				output += "\t*ptr += ";
+				output += std::to_string(sameCounter);
+				output += "; \n";
+				sameCounter = 0;
 			}
-			else {
+			else if (i + 1 != tokens.size() && tokens[i + 1] == token) {
+
+			}
+			else if (sameCounter == 1) {
+
 				output += "\t++*ptr;\n";
+				sameCounter = 0;
 			}
-
+				
 			break;
 		case Token::dec:
 			if (last == token || sameCounter == 0)
@@ -60,6 +53,7 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 				else if (sameCounter == 1) {
 
 					output += "\t--*ptr;\n";
+					sameCounter = 0;
 				}
 
 			}
@@ -90,6 +84,9 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 			}
 			loopStack.pop();
 			output += "}\n\n";
+			break;
+		case Token::end:
+			output += "\texit();\n";
 			break;
 		default:
 			break;

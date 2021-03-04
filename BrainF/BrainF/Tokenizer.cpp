@@ -15,10 +15,10 @@ std::vector<Token> Tokenizer::tokenize(const std::string& data)
 			tokens.push_back(Token::dec);
 			break;
 		case '>':
-			tokens.push_back(Token::left);
-			break;
-		case '<':
 			tokens.push_back(Token::right);
+			break;
+		case '<':	
+			tokens.push_back(Token::left);
 			break;
 		case '.':
 			tokens.push_back(Token::print);
@@ -31,6 +31,9 @@ std::vector<Token> Tokenizer::tokenize(const std::string& data)
 			break;
 		case ']':
 			tokens.push_back(Token::loopE);
+			break;
+		case '@':
+			tokens.push_back(Token::end);
 			break;
 		}
 	}
