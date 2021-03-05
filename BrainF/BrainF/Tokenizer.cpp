@@ -3,6 +3,7 @@
 std::vector<Token> Tokenizer::tokenize(const std::string& data)
 {
 	std::vector<Token> tokens;
+	
 
 	for (unsigned i = 0; i < data.size(); i++)
 	{
@@ -34,6 +35,30 @@ std::vector<Token> Tokenizer::tokenize(const std::string& data)
 			break;
 		case '@':
 			tokens.push_back(Token::end);
+			break;
+		case '$':
+			tokens.push_back(Token::storageRead);
+			break;
+		case '!':
+			tokens.push_back(Token::storageWrite);
+			break;
+		case '{':
+			tokens.push_back(Token::leftShift);
+			break;
+		case '}':
+			tokens.push_back(Token::rightShift);
+			break;
+		case '~':
+			tokens.push_back(Token::bitNot);
+			break;
+		case '&':
+			tokens.push_back(Token::bitAnd);
+			break;
+		case '|':
+			tokens.push_back(Token::bitOr);
+			break;
+		case '^':
+			tokens.push_back(Token::bitXor);
 			break;
 		}
 	}
