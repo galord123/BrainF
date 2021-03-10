@@ -6,7 +6,7 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 	Token last = Token::get;
 	int sameCounter = 0;	
 	unsigned i = 0;
-	std::string output = "#include <stdio.h>\n#include <stdlib.h>\n#include <inttypes.h>\n\nint main() {\n\tuint8_t arr[100] = { 0 };\n\tuint8_t* ptr = arr;\n\tuint8_t storage = '\\0';\n\n";
+	std::string output = "#include <stdio.h>\n#include <stdlib.h>\n#include <inttypes.h>\n\nchar* getString(uint8_t* data) {\n\tint size = (*data);\n\tchar* str = (char*)calloc(size + 1, sizeof(uint8_t));\n\n\tfor (int i = 0; i < size; i++) {\n\t\tstr[i] = *(data + i + 1);\n\t}\n\n\treturn str;\n}\n\nint main() {\n\tuint8_t arr[100] = { 0 };\n\tuint8_t* ptr = arr;\n\tuint8_t storage = '\\0';\n\tFILE *fptr = NULL;\n\n";
 	
 	for (auto token : tokens) 
 	{
@@ -128,6 +128,20 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 		case Token::bitXor:
 			output += "\t*ptr = (*ptr) ^ storage;\n";
 			break;
+
+		case Token::fileOpenClose:
+			output += "*ptr";
+			output += "\tif (fptr == NULL) {\n\t\tfptr = fopen(\"\",\"w\");";
+			break;
+
+		case Token::fileRead:
+			output += "\t\n";
+			break;
+
+		case Token::fileWrite:
+			output += "\t\n";
+			break;
+
 
 		default:
 			break;

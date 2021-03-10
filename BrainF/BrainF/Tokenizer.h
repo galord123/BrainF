@@ -19,7 +19,10 @@ enum class Token {
 	bitNot, // ~
 	bitXor, // ^
 	bitAnd, // &
-	bitOr // |
+	bitOr, // |
+	fileOpenClose, // #
+	fileRead, // ;
+	fileWrite // :
 };
 
 class Tokenizer

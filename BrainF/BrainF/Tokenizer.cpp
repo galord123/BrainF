@@ -60,6 +60,15 @@ std::vector<Token> Tokenizer::tokenize(const std::string& data)
 		case '^':
 			tokens.push_back(Token::bitXor);
 			break;
+		case '#':
+			tokens.push_back(Token::fileOpenClose);
+			break;
+		case ';':
+			tokens.push_back(Token::fileRead);
+			break;
+		case ':':
+			tokens.push_back(Token::fileWrite);
+			break;
 		}
 	}
 
