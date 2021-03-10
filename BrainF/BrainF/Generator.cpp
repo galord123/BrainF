@@ -130,16 +130,15 @@ std::string Generator::genarate(const std::vector<Token>& tokens)
 			break;
 
 		case Token::fileOpenClose:
-			output += "*ptr";
-			output += "\tif (fptr == NULL) {\n\t\tfptr = fopen(\"\",\"w\");";
+			output += "\tif (fptr == NULL) {\n\t\tfptr = fopen(getString(ptr),\"a+\");\n\t\tfseek(fptr, 0, SEEK_SET); \n\t}\n\telse {\n\tfclose(fptr);\n\t}\n";
 			break;
 
 		case Token::fileRead:
-			output += "\t\n";
+			output += "\tfwrite(ptr, sizeof(uint8_t), 1, fptr);\n";
 			break;
 
 		case Token::fileWrite:
-			output += "\t\n";
+			output += "\tfread(ptr, sizeof(uint8_t), 1, fptr);\n";
 			break;
 
 
